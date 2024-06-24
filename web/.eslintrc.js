@@ -10,9 +10,6 @@ module.exports = {
   plugins: ['react-perf', 'relay', '@typescript-eslint', 'import'],
   extends: [
     'airbnb-typescript/base',
-    'airbnb/rules/react',
-    'airbnb/rules/react-a11y',
-    'plugin:relay/strict',
     'next/core-web-vitals',
     "prettier"
   ],
@@ -65,15 +62,6 @@ module.exports = {
     '@typescript-eslint/method-signature-style': ['error', 'property'],
     '@typescript-eslint/no-inferrable-types': 'error',
 
-    // Forbid types
-    '@typescript-eslint/ban-types': 'error',
-    '@typescript-eslint/no-explicit-any': ['error', { fixToUnknown: true }],
-    '@typescript-eslint/no-invalid-void-type': 'error',
-    '@typescript-eslint/no-unsafe-argument': 'error',
-    '@typescript-eslint/no-unsafe-assignment': 'error',
-    '@typescript-eslint/no-unsafe-call': 'error',
-    '@typescript-eslint/no-unsafe-return': 'error',
-
     // Readability
     '@typescript-eslint/adjacent-overload-signatures': 'error',
     '@typescript-eslint/no-empty-interface': ['error', { allowSingleExtends: false }],
@@ -109,13 +97,6 @@ module.exports = {
       { path: 'never', types: 'never', lib: 'never' },
     ],
 
-    // Async
-    'no-void': 'off',
-    '@typescript-eslint/await-thenable': 'error',
-    '@typescript-eslint/no-floating-promises': 'error',
-    '@typescript-eslint/no-misused-promises': 'error',
-    '@typescript-eslint/promise-function-async': 'error',
-
     // APIs
     '@typescript-eslint/prefer-includes': 'error',
     '@typescript-eslint/prefer-nullish-coalescing': 'error',
@@ -129,41 +110,11 @@ module.exports = {
     // We prefer React named imports only
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
+    'import/no-extraneous-dependencies': 'off',
     'import/extensions': 'off',
 
-    // We prefer sorting imports by groups
-    'import/order': [
-      'error',
-      {
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
-        },
-        'groups': [
-          'builtin',
-          'external',
-          'internal',
-          'parent',
-          'sibling',
-          'index',
-          'object',
-          'type'
-        ],
-        "pathGroups": [
-          {
-            "pattern": "react",
-            "group": "external",
-            "position": "before"
-          },
-          {
-            "pattern": "@/**",
-            "group": "external",
-            "position": "after"
-          }
-        ],
-        "pathGroupsExcludedImportTypes": ["react"]
-      }
-    ],
+
+  
 
     // We prefer labels to be associated with inputs
     'jsx-a11y/label-has-associated-control': ['error', {

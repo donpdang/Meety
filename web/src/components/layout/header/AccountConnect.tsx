@@ -3,6 +3,7 @@ import { baseSepolia } from 'viem/chains';
 import { useAccount, useChainId, useConnect, useDisconnect } from 'wagmi';
 import { AccountDropdown } from './AccountDropdown';
 import { AccountInfoPanel } from './AccountInfoPanel';
+import { useUser } from '@/context/UserContext';
 
 /**
  * AccountConnect
@@ -11,6 +12,7 @@ import { AccountInfoPanel } from './AccountInfoPanel';
  *  - Displays the wallet network
  */
 function AccountConnect() {
+  const { refetchUser } = useUser();
   const account = useAccount();
   const { status } = useConnect();
   const { disconnect } = useDisconnect();
@@ -18,7 +20,7 @@ function AccountConnect() {
 
   return (
     <div
-      className="flex flex-grow"
+      className="flex flex-grow text-black"
       {...(status === 'pending' && {
         'aria-hidden': true,
         style: {
@@ -35,7 +37,13 @@ function AccountConnect() {
 
         if (account.status === 'connected' && chainId !== baseSepolia.id) {
           return (
-            <button onClick={() => disconnect()} type="button">
+            <button
+              onClick={() => {
+                disconnect();
+                refetchUser();
+              }}
+              type="button"
+            >
               Wrong network
             </button>
           );
@@ -43,12 +51,12 @@ function AccountConnect() {
 
         return (
           <>
-            <div className="flex flex-grow flex-col md:hidden">
+            <div className="flex flex-grow flex-col">
               <AccountInfoPanel />
             </div>
-            <div className="flex hidden md:block">
+            {/* <div className="flex hidden md:block">
               <AccountDropdown />
-            </div>
+            </div> */}
           </>
         );
       })()}

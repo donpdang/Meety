@@ -1,10 +1,11 @@
 import { generateMetadata } from '@/utils/generateMetadata';
-import HomePage from './home/HomePage';
+import Footer from '@/components/layout/footer/Footer';
+import Header from '@/components/layout/header/Header';
+import MainPage from '@/components/Pages/MainPage';
 
 export const metadata = generateMetadata({
-  title: 'Build Onchain Apps Template',
-  description:
-    'Save weeks of initial app setup and the hassle of integrating onchain components with web2 infrastructure.',
+  title: 'Meety.xyz',
+  description: 'Commenmorate your meetups and let it live forever on the base chain!',
   images: 'themes.png',
   pathname: '',
 });
@@ -16,5 +17,13 @@ export const metadata = generateMetadata({
  * https://nextjs.org/docs/app/building-your-application/rendering/client-components
  */
 export default function Page() {
-  return <HomePage />;
+  return (
+    <>
+      <Header />
+      <main className="container mx-auto flex flex-col py-4 text-black">
+        <MainPage />
+      </main>
+      <Footer />
+    </>
+  );
 }

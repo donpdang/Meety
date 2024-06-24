@@ -38,9 +38,9 @@ export function NavbarTitle() {
         href="/"
         passHref
         className="font-robotoMono text-center text-xl font-medium text-white no-underline"
-        aria-label="build-onchain-apps Github repository"
+        aria-label="build-onchain-apps"
       >
-        BUILD ONCHAIN APPS
+        Meety.xyz
       </NextLink>
     </div>
   );
