@@ -1,7 +1,6 @@
 import { ConnectAccount } from '@coinbase/onchainkit/wallet';
 import { baseSepolia } from 'viem/chains';
 import { useAccount, useChainId, useConnect, useDisconnect } from 'wagmi';
-import { AccountDropdown } from './AccountDropdown';
 import { AccountInfoPanel } from './AccountInfoPanel';
 import { useUser } from '@/context/UserContext';
 

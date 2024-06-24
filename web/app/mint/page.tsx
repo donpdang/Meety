@@ -2,9 +2,7 @@
 
 import { useUser } from '@/context/UserContext';
 import Header from '@/components/layout/header/Header';
-import Main from '@/components/layout/Main';
 import Footer from '@/components/layout/footer/Footer';
-import { Loader } from '@/components/ui/loader';
 import { useWriteContracts } from 'wagmi/experimental';
 import { CallStatus } from './_components/CallStatus';
 import { usePaymasterBundlerContract } from './_contracts/usePaymasterBundlerContract';
@@ -66,7 +64,7 @@ function MintPage() {
                 target="_blank"
                 rel="noreferrer"
               >
-                {meetName || shortenAddress(meetAddress || '')}
+                {meetName || shortenAddress(meetAddress ?? '')}
               </a>{' '}
               🎉 Mint an NFT to commemorate the occasion!
             </div>

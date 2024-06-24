@@ -39,8 +39,8 @@ export function CallStatus({ id }: CallStatusProps): JSX.Element {
             const theLog = logs[2];
             // Convert hex number of decimal
             const hexValue = theLog.data;
-            const tokenId = parseInt(hexValue, 16);
-            setTokenId(tokenId);
+            const mintedTokenId = parseInt(hexValue, 16);
+            setTokenId(mintedTokenId);
           }
         }
       }

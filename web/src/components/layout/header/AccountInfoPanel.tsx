@@ -7,7 +7,7 @@ import { useUser } from '@/context/UserContext';
 import Link from 'next/link';
 
 export function AccountInfoPanel() {
-  const { user, refetchUser } = useUser();
+  const { user } = useUser();
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
   const handleDisconnectWallet = useCallback(() => {
