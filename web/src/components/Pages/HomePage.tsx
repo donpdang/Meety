@@ -5,6 +5,7 @@ import isLocal from '@/utils/isLocal';
 import QRCode from 'react-qr-code';
 
 function HomePage({ user }: { user: User }) {
+  const baseURL = process.env.NEXT_PUBLIC_URL;
   return (
     <>
       <div className="mt-4 flex flex-col items-center justify-center gap-12">
@@ -14,15 +15,9 @@ function HomePage({ user }: { user: User }) {
           <QRCode
             size={512}
             style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
-            value={
-              isLocal()
-                ? `http://localhost:3000/mint?meet=${user.walletAddresses[0]}${
-                    user.name ? `&name=${user.name}` : ''
-                  }`
-                : `http://localhost:3000/mint?meet=${user.walletAddresses[0]}${
-                    user.name ? `&name=${user.name}` : ''
-                  }`
-            }
+            value={`${baseURL}/mint?meet=${user.walletAddresses[0]}${
+              user.name ? `&name=${user.name}` : ''
+            }`}
             viewBox={`0 0 512 512`}
           />
         </div>
