@@ -6,7 +6,7 @@ import HomePage from '@/components/Pages/HomePage';
 
 function MainPage() {
   const { user } = useUser();
-  console.log('user', user);
+
   return (
     <>
       {' '}

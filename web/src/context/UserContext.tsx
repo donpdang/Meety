@@ -20,10 +20,9 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const addresses = account?.addresses;
-    console.log('addresses user', addresses);
+
     if (!!addresses?.length && addresses.some((a) => !user?.walletAddresses.includes(a))) {
       const newUser = new UserDB(addresses);
-      console.log('setting user', newUser);
       setUser(newUser);
     }
   }, [account]);
