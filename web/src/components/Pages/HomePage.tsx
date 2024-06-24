@@ -1,7 +1,6 @@
 'use client';
 
 import { User } from '@/lib/localDB';
-import isLocal from '@/utils/isLocal';
 import QRCode from 'react-qr-code';
 
 function HomePage({ user }: { user: User }) {
