@@ -26,6 +26,12 @@ export async function GET(request: NextRequest) {
   const long = request.nextUrl.searchParams.get('long') || '49.2734';
   const name1 = request.nextUrl.searchParams.get('name1') || 'Don';
   const name2 = request.nextUrl.searchParams.get('name2') || 'Ash';
+  const pfp1 = request.nextUrl.searchParams.get('pfp1')
+    ? decodeURIComponent(request.nextUrl.searchParams.get('pfp1') || '')
+    : 'https://13e6485f0ed7f2f414fc1d82e74ca163.ipfscdn.io/ipfs/bafybeifirnbfg7tjwlxjhppscio4cp3idpgwu46gkwprmgycs3pak2oj3i/';
+  const pfp2 = request.nextUrl.searchParams.get('pfp2')
+    ? decodeURIComponent(request.nextUrl.searchParams.get('pfp2') || '')
+    : 'https://13e6485f0ed7f2f414fc1d82e74ca163.ipfscdn.io/ipfs/bafybeifirnbfg7tjwlxjhppscio4cp3idpgwu46gkwprmgycs3pak2oj3i/';
   const date = request.nextUrl.searchParams.get('date') || '28th Oct 2024';
   const time = request.nextUrl.searchParams.get('time') || '12:30 PM';
 
@@ -93,22 +99,40 @@ export async function GET(request: NextRequest) {
                 }}
               ></img>
               <img width="510" height="510" src={imageData}></img>
-
+              <img
+                width="80"
+                height="80"
+                src={pfp1}
+                style={{
+                  position: 'absolute',
+                  top: 100,
+                  left: 150,
+                }}
+              />
               <div
                 style={{
                   position: 'absolute',
-                  top: 200,
-                  left: 180,
+                  top: 120,
+                  left: 250,
                   textAlign: 'center',
                   justifyContent: 'center',
-                  fontSize: 35,
-                  fontWeight: 'bold',
+                  fontSize: 30,
                   color: 'black',
-                  fontFamily: 'Inter',
+                  fontFamily: 'DancingScript2',
                 }}
               >
-                {`${name1} 🙌 ${name2}`}
+                🙌
               </div>
+              <img
+                width="80"
+                height="80"
+                src={pfp2}
+                style={{
+                  position: 'absolute',
+                  top: 100,
+                  left: 300,
+                }}
+              />
               <div
                 style={{
                   position: 'absolute',

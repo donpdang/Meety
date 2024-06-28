@@ -102,10 +102,12 @@ function ProfileSetUp({ user }: { user: User }) {
           <Input onBlur={(e) => setName(e.target.value)} />
         </div> */}
       </div>
-      <Button className="mx-auto mt-4 px-2" variant={'secondary'} onClick={() => onSubmit()}>
-        {' '}
-        Lets go!
-      </Button>
+      {profileUrl && name && (
+        <Button className="mx-auto mt-4 px-2" variant={'secondary'} onClick={() => onSubmit()}>
+          {' '}
+          Lets go!
+        </Button>
+      )}
     </>
   );
 }

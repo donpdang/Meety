@@ -16,7 +16,7 @@ function HomePage({ user }: { user: User }) {
             style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
             value={`${baseURL}/mint?meet=${user.walletAddresses[0]}${
               user.name ? `&name=${user.name}` : ''
-            }`}
+            }&pfp=${encodeURIComponent(user.profileUrl || '') || ''}`}
             viewBox={`0 0 512 512`}
           />
         </div>

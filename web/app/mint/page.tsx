@@ -13,6 +13,7 @@ import { shortenAddress } from '@/utils/common';
 import { useEffect, useState } from 'react';
 import { formatDate } from '@/utils/common';
 import { Loader } from '@/components/ui/loader';
+import ProfileSetUp from '@/components/Pages/ProfileSetUp';
 
 // Target the Paymaster directly without a proxy if running on localhost.
 // Use the Paymaster Proxy when deployed.
@@ -30,6 +31,7 @@ function MintPage() {
   const searchParams = useSearchParams();
   const meetAddress = searchParams.get('meet');
   const meetName = searchParams.get('name');
+  const pfp = searchParams.get('pfp');
 
   useEffect(() => {
     // upload metadata to ipfs
@@ -46,11 +48,9 @@ function MintPage() {
               process.env.NEXT_PUBLIC_URL
             }/api/image?lat=${latitude}&long=${longitude}&name1=${
               meetName || shortenAddress(user?.walletAddresses[0] || '')
-            }&name2=${user?.name}&date=${formatDate(new Date())}&time=${formatDate(
-              new Date(),
-              false,
-              true,
-            )}`,
+            }&name2=${user?.name}&pfp1=${encodeURIComponent(pfp || '')}&pfp2=${encodeURIComponent(
+              user?.profileUrl || '',
+            )}&date=${formatDate(new Date())}&time=${formatDate(new Date(), false, true)}`,
           }),
         });
         const responseMediaData = await responseMedia.json();
@@ -115,6 +115,7 @@ function MintPage() {
   return (
     <>
       <Header />
+      {user && !user.name && <ProfileSetUp user={user} />}
       <main className="container mx-auto flex flex-col px-4 py-4 text-black">
         {!!user && (
           <div className="mt-4 flex flex-col items-center gap-4">
@@ -138,7 +139,7 @@ function MintPage() {
                 Mint!
               </Button>
             )}
-            {!metadataUrl && <Loader />}
+            {!metadataUrl && user.name && <Loader />}
           </div>
         )}
         {!user && (
