@@ -10,6 +10,9 @@ import isLocal from '@/utils/isLocal';
 import { Button } from '@/components/ui/button';
 import { useSearchParams } from 'next/navigation';
 import { shortenAddress } from '@/utils/common';
+import { useEffect, useState } from 'react';
+import { formatDate } from '@/utils/common';
+import { Loader } from '@/components/ui/loader';
 
 // Target the Paymaster directly without a proxy if running on localhost.
 // Use the Paymaster Proxy when deployed.
@@ -20,11 +23,69 @@ const defaultUrl = isLocalEnv
 
 function MintPage() {
   const { user } = useUser();
+  const [metadataUrl, setMetadataUrl] = useState('');
+
   const { data: callID, writeContracts } = useWriteContracts();
   const contract = usePaymasterBundlerContract();
   const searchParams = useSearchParams();
   const meetAddress = searchParams.get('meet');
   const meetName = searchParams.get('name');
+
+  useEffect(() => {
+    // upload metadata to ipfs
+    if (!metadataUrl.length && user?.name) {
+      async function success(position: GeolocationPosition) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        // Upload image media to ipfs
+        const responseMedia = await fetch('/api/metadata/media', {
+          method: 'POST',
+          body: JSON.stringify({
+            url: `${
+              process.env.NEXT_PUBLIC_URL
+            }/api/image?lat=${latitude}&long=${longitude}&name1=${
+              meetName || shortenAddress(user?.walletAddresses[0] || '')
+            }&name2=${user?.name}&date=${formatDate(new Date())}&time=${formatDate(
+              new Date(),
+              false,
+              true,
+            )}`,
+          }),
+        });
+        const responseMediaData = await responseMedia.json();
+        const imageUrl = responseMediaData.url;
+
+        const response = await fetch('/api/metadata', {
+          method: 'POST',
+          body: JSON.stringify({
+            name: `${meetName || shortenAddress(meetAddress || '')} met ${
+              user?.name || shortenAddress(user?.walletAddresses[0])
+            } 🎉`,
+            description: `A commemorative meetup between ${
+              meetName || shortenAddress(user?.walletAddresses[0])
+            } and ${user?.name || shortenAddress(user?.walletAddresses[0])}!`,
+            lat: latitude || 'unknown',
+            long: longitude || 'unknown',
+            date: new Date().toISOString(),
+            image: imageUrl,
+          }),
+        });
+        const data = await response.json();
+        setMetadataUrl(data.metadata);
+        console.log('the metadata url', data.metadata);
+      }
+
+      function error() {
+        console.log('Unable to retrieve your location');
+      }
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error);
+      } else {
+        console.log('Geolocation not supported');
+      }
+    }
+  }, [user]);
 
   if (contract.status !== 'ready') {
     console.error('Contract is not ready');
@@ -39,7 +100,7 @@ function MintPage() {
             address: contract.address,
             abi: contract.abi,
             functionName: 'safeMint',
-            args: [meetAddress, 'https://arweave.net/Exset1ULmMQaER6whe9JEH3BHRfZJ_jk36XxkGITB4A'],
+            args: [meetAddress, metadataUrl],
           },
         ],
         capabilities: {
@@ -68,7 +129,7 @@ function MintPage() {
               </a>{' '}
               🎉 Mint an NFT to commemorate the occasion!
             </div>
-            {!callID && (
+            {!callID && metadataUrl && (
               <Button
                 variant="secondary"
                 onClick={() => handleMint()}
@@ -77,6 +138,7 @@ function MintPage() {
                 Mint!
               </Button>
             )}
+            {!metadataUrl && <Loader />}
           </div>
         )}
         {!user && (
