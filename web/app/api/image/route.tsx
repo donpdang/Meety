@@ -1,8 +1,7 @@
-import { type NextRequest, NextResponse } from 'next/server';
+import { type NextRequest } from 'next/server';
 import fs from 'fs-extra';
 import { join } from 'path';
 import { ImageResponse } from 'next/og';
-import { format } from 'date-fns';
 
 const fontPath = join(process.cwd(), 'Roboto-Regular.ttf');
 let fontData = fs.readFileSync(fontPath);
@@ -24,8 +23,8 @@ mapData = new Uint8Array(mapData).buffer;
 export async function GET(request: NextRequest) {
   const lat = request.nextUrl.searchParams.get('lat') || '49.2734';
   const long = request.nextUrl.searchParams.get('long') || '49.2734';
-  const name1 = request.nextUrl.searchParams.get('name1') || 'Don';
-  const name2 = request.nextUrl.searchParams.get('name2') || 'Ash';
+  // const name1 = request.nextUrl.searchParams.get('name1') || 'Don';
+  // const name2 = request.nextUrl.searchParams.get('name2') || 'Ash';
   const pfp1 = request.nextUrl.searchParams.get('pfp1')
     ? decodeURIComponent(request.nextUrl.searchParams.get('pfp1') || '')
     : 'https://13e6485f0ed7f2f414fc1d82e74ca163.ipfscdn.io/ipfs/bafybeifirnbfg7tjwlxjhppscio4cp3idpgwu46gkwprmgycs3pak2oj3i/';
