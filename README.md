@@ -1,4 +1,6 @@
-# Build Onchain Apps Template
+# Meety
+
+Cherish and commemorate your IRL meeting by minting an NFT, creating a personalized and verifiable memory that lasts forever!
 
 This project has two main folders:
 
