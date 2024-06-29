@@ -10,7 +10,7 @@ import isLocal from '@/utils/isLocal';
 import { Button } from '@/components/ui/button';
 import { useSearchParams } from 'next/navigation';
 import { shortenAddress } from '@/utils/common';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { formatDate } from '@/utils/common';
 import { Loader } from '@/components/ui/loader';
 import ProfileSetUp from '@/components/Pages/ProfileSetUp';
@@ -114,40 +114,42 @@ function MintPage() {
 
   return (
     <>
-      <Header />
-      {user && !user.name && <ProfileSetUp user={user} />}
-      <main className="container mx-auto flex flex-col px-4 py-4 text-black">
-        {!!user && (
-          <div className="mt-4 flex flex-col items-center gap-4">
-            <div className="text-sm">
-              You met{' '}
-              <a
-                href={`https://etherscan.io/address/${meetAddress}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {meetName || shortenAddress(meetAddress ?? '')}
-              </a>{' '}
-              🎉 Mint an NFT to commemorate the occasion!
+      <Suspense>
+        <Header />
+        {user && !user.name && <ProfileSetUp user={user} />}
+        <main className="container mx-auto flex flex-col px-4 py-4 text-black">
+          {!!user && (
+            <div className="mt-4 flex flex-col items-center gap-4">
+              <div className="text-sm">
+                You met{' '}
+                <a
+                  href={`https://etherscan.io/address/${meetAddress}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {meetName || shortenAddress(meetAddress ?? '')}
+                </a>{' '}
+                🎉 Mint an NFT to commemorate the occasion!
+              </div>
+              {!callID && metadataUrl && (
+                <Button
+                  variant="secondary"
+                  onClick={() => handleMint()}
+                  className="transform transition-transform active:scale-75"
+                >
+                  Mint!
+                </Button>
+              )}
+              {!metadataUrl && user.name && <Loader />}
             </div>
-            {!callID && metadataUrl && (
-              <Button
-                variant="secondary"
-                onClick={() => handleMint()}
-                className="transform transition-transform active:scale-75"
-              >
-                Mint!
-              </Button>
-            )}
-            {!metadataUrl && user.name && <Loader />}
-          </div>
-        )}
-        {!user && (
-          <div className="flex flex-col items-center">Connect wallet above to get started!</div>
-        )}
-        {callID && <CallStatus id={callID} />}
-      </main>
-      <Footer />
+          )}
+          {!user && (
+            <div className="flex flex-col items-center">Connect wallet above to get started!</div>
+          )}
+          {callID && <CallStatus id={callID} />}
+        </main>
+        <Footer />
+      </Suspense>
     </>
   );
 }
