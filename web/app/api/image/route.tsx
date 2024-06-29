@@ -1,4 +1,5 @@
 import { type NextRequest } from 'next/server';
+/* eslint-disable import/no-extraneous-dependencies */
 import fs from 'fs-extra';
 import { join } from 'path';
 import { ImageResponse } from 'next/og';
@@ -13,12 +14,12 @@ let fontData3 = fs.readFileSync(fontPath3);
 const imagePath = join(process.cwd(), 'BFF_background.png');
 let imageData = fs.readFileSync(imagePath);
 // conver imageDAta to arrayBuffer to be passed into img
-imageData = new Uint8Array(imageData).buffer;
+const imageDataArray = new Uint8Array(imageData).buffer;
 
 const mapPath = join(process.cwd(), 'map_background.jpeg');
 let mapData = fs.readFileSync(mapPath);
 // conver imageDAta to arrayBuffer to be passed into img
-mapData = new Uint8Array(mapData).buffer;
+const mapDataArray = new Uint8Array(mapData).buffer;
 
 export async function GET(request: NextRequest) {
   const lat = request.nextUrl.searchParams.get('lat') || '49.2734';
@@ -84,7 +85,7 @@ export async function GET(request: NextRequest) {
               <img
                 width="425"
                 height="425"
-                src={mapData}
+                src={mapDataArray as any}
                 style={{
                   position: 'absolute',
                   top: 70,
@@ -97,7 +98,7 @@ export async function GET(request: NextRequest) {
                   opacity: 0.8,
                 }}
               ></img>
-              <img width="510" height="510" src={imageData}></img>
+              <img width="510" height="510" src={imageDataArray as any}></img>
               <img
                 width="80"
                 height="80"
